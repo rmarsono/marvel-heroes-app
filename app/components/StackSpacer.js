@@ -1,0 +1,17 @@
+import React from "react"
+import { number } from "prop-types"
+import { View } from "react-native"
+
+const StackSpacer = ({ size }) => (
+  <View style={{ flex: 1, paddingBottom: size * 8 }}></View>
+)
+
+StackSpacer.propTypes = {
+  size: number,
+}
+
+StackSpacer.defaultProps = {
+  size: 1,
+}
+
+export default StackSpacer

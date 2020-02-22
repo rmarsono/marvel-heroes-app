@@ -1255,6 +1255,13 @@
     hoist-non-react-statics "^3.2.1"
     lodash.merge "^4.6.1"
 
+"@ui-kitten/eva-icons@^4.4.0":
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/@ui-kitten/eva-icons/-/eva-icons-4.4.0.tgz#49c41a1cca9a9a4815374b9dc4f94317910616cf"
+  integrity sha512-+C4TCm1OZYjZ6N/qWeWCnb7IpLVzXajjOMC63kiQT89QrKXJZ5j/+EYLDJeIeK/Y2P/ypQva73351IgXtslXGg==
+  dependencies:
+    react-native-eva-icons "1.1.0"
+
 abab@^2.0.0:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.3.tgz#623e2075e02eb2d3f2475e49f99c91846467907a"
@@ -5778,6 +5785,11 @@ react-native-crypto-js@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-crypto-js/-/react-native-crypto-js-1.0.0.tgz#e677e022e147f41b35614416c92d655f87e2450a"
   integrity sha512-FNbLuG/HAdapQoybeZSoes1PWdOj0w242gb+e1R0hicf3Gyj/Mf8M9NaED2AnXVOX01b2FXomwUiw1xP1K+8sA==
+
+react-native-eva-icons@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-eva-icons/-/react-native-eva-icons-1.1.0.tgz#323e55d759187edc216d049e7c0012a27383e0ed"
+  integrity sha512-0k6sbiKoHxmmbCgAZTHj6llcdcwtbyZJ1E2AK0my7QU0WRaWwqWMep5AUlMbrIiuYE9mkMZiabEXYcfn3ir2PA==
 
 react-native-gesture-handler@^1.6.0:
   version "1.6.0"

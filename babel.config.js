@@ -10,8 +10,7 @@ module.exports = {
           ".js",
         ],
         alias: {
-          Screens: "./app/screens",
-          Api: "./app/api",
+          App: "./app/",
         },
       },
     ],
