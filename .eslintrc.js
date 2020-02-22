@@ -46,4 +46,9 @@ module.exports = {
         "no-trailing-spaces": "error",
         "max-len": ["error", { "code": 80 }]
     },
+    "settings": {
+        "import/resolver": {
+            "babel-module": {}
+        }
+    },
 }
