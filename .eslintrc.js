@@ -2,7 +2,8 @@ module.exports = {
     "env": {
         "es6": true,
         "node": true,
-        "jest": true
+        "jest": true,
+        browser: true
     },
     "extends": "eslint:recommended",
     "globals": {
@@ -41,5 +42,8 @@ module.exports = {
         "object-curly-spacing": ["error", "always", { "arraysInObjects": true, "objectsInObjects": true }],
         'react/prefer-stateless-function': 'error',
         'react/sort-prop-types': 'error',
+        "no-multiple-empty-lines": "error",
+        "no-trailing-spaces": "error",
+        "max-len": ["error", { "code": 80 }]
     },
 }
