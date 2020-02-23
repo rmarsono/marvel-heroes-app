@@ -37,14 +37,14 @@ const HeroesList = ({ navigation: { navigate } }) => {
             removeClippedSubviews={true}
             maxToRenderPerBatch={50}
             initialNumToRender={100}
-            renderItem={({ item: { name, description, comics, thumbnail } }) => (
+            renderItem={({ item: { id, name, description, thumbnail } }) => (
               <ListItem
                 title={name}
                 onPress={() =>
                   navigate("HeroDetails", {
+                    id,
                     name,
                     description,
-                    comics,
                     thumbnail,
                   })
                 }

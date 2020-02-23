@@ -7,7 +7,7 @@ const StackSpacer = ({ size }) => (
 )
 
 StackSpacer.propTypes = {
-  size: number,
+  size: number.isRequired,
 }
 
 StackSpacer.defaultProps = {

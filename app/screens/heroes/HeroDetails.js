@@ -1,52 +1,118 @@
 import React from "react"
-import { SafeAreaView, ScrollView, TouchableOpacity } from "react-native"
-import { TopNavigation, Divider, Layout, Icon } from "@ui-kitten/components"
+import { SafeAreaView, ScrollView } from "react-native"
+import { TopNavigation, Divider, Layout, Text } from "@ui-kitten/components"
 import HeroImage from "App/components/HeroImage"
+import ComicImage from "App/components/ComicImage"
 import StackSpacer from "App/components/StackSpacer"
+import ImageWall from "App/components/ImageWall"
 import DataRow from "App/components/DataRow"
+import Wrapper from "App/components/Wrapper"
+import BackButton from "App/components/BackButton"
+import { useComics } from "App/hooks/marvel"
+
+import { shape, func, string, number } from "prop-types"
 
 const HeroDetails = ({
   navigation: { goBack },
   route: {
     params: {
+      id,
       name,
       description,
-      comics: { items: comicsItems, returned: comicsReturned },
       thumbnail: { path, extension },
     },
   },
 }) => {
-
-  const back = () => (
-    <TouchableOpacity onPress={() => goBack()}>
-      <Icon name="arrow-circle-left" width={24} height={24} />
-    </TouchableOpacity>
-  )
+  const {
+    results: comics,
+    count: comicsCount,
+    total: comicsTotal,
+    isComplete,
+  } = useComics(id)
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <TopNavigation title={name} alignment="center" leftControl={back()} />
+      <TopNavigation
+        title={name}
+        alignment="center"
+        leftControl={<BackButton goBack={goBack} />}
+      />
       <Divider />
 
       <Layout
         style={{
           flex: 1,
-          paddingLeft: 20,
-          paddingRight: 20,
         }}>
         <ScrollView>
-          <StackSpacer size={2} />
-          {path.indexOf("not_available") >= 0 ? null : (
+          <Wrapper>
             <>
-              <HeroImage path={path} extension={extension} />
-              <StackSpacer size={3} />
+              <StackSpacer size={2} />
+              {path.includes("not_available") ? null : (
+                <>
+                  <HeroImage path={path} extension={extension} />
+                  <StackSpacer size={3} />
+                </>
+              )}
+              <DataRow
+                label={name}
+                value={
+                  description !== ""
+                    ? description
+                    : "Description is not available"
+                }
+              />
+              <StackSpacer size={2} />
+              {!isComplete ? (
+                <Text>Loading comics...</Text>
+              ) : (
+                <>
+                  {comics && comicsCount > 0 ? (
+                    <>
+                      <Text category="h6">
+                        Showing {comicsCount} out of {comicsTotal} comic books
+                      </Text>
+                      <StackSpacer size={2} />
+                      <ImageWall>
+                        {comics.map(
+                          ({ id, title, thumbnail: { extension, path } }) => (
+                            <ComicImage
+                              key={id}
+                              path={path}
+                              extension={extension}
+                              title={title}
+                            />
+                          ),
+                        )}
+                      </ImageWall>
+                    </>
+                  ) : (
+                    <Text>Comics list is not available</Text>
+                  )}
+                </>
+              )}
             </>
-          )}
-          <DataRow label={name} value={description} />
+          </Wrapper>
         </ScrollView>
       </Layout>
     </SafeAreaView>
   )
+}
+
+HeroDetails.propTypes = {
+  navigation: shape({
+    goBack: func.isRequired,
+  }).isRequired,
+  route: shape({
+    params: shape({
+      id: number.isRequired,
+      name: string.isRequired,
+      description: string.isRequired,
+      thumbnail: shape({
+        path: string.isRequired,
+        extension: string.isRequired,
+      }).isRequired,
+    }).isRequired,
+  }).isRequired,
 }
 
 export default HeroDetails
