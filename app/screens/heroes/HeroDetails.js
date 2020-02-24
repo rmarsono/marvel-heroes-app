@@ -23,12 +23,7 @@ const HeroDetails = ({
     },
   },
 }) => {
-  const {
-    results: comics,
-    count: comicsCount,
-    total: comicsTotal,
-    isComplete,
-  } = useComics(id)
+  const { results, isLoaded } = useComics(id)
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -62,18 +57,18 @@ const HeroDetails = ({
                 }
               />
               <StackSpacer size={2} />
-              {!isComplete ? (
+              {!isLoaded ? (
                 <Text>Loading comics...</Text>
               ) : (
                 <>
-                  {comics && comicsCount > 0 ? (
+                  {results.length > 0 ? (
                     <>
                       <Text category="h6">
-                        Showing {comicsCount} out of {comicsTotal} comic books
+                        {`Comic books featuring ${name}`}
                       </Text>
                       <StackSpacer size={2} />
                       <ImageWall>
-                        {comics.map(
+                        {results.map(
                           ({ id, title, thumbnail: { extension, path } }) => (
                             <ComicImage
                               key={id}

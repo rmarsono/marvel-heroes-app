@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import { SafeAreaView } from "react-native"
 import {
   TopNavigation,
@@ -13,8 +13,6 @@ import Loader from "App/components/Loader"
 
 const HeroesList = ({ navigation: { navigate } }) => {
   const { results, isLoaded } = useMarvelCharacters()
-
-  console.log("results", results)
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

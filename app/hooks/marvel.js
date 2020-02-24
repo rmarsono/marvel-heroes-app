@@ -6,7 +6,7 @@ import {
   publicKey as marvelPublicKey,
 } from "App/config"
 
-const params = (skip = 0) => {
+const params = skip => {
   const privateKey = marvelPrivateKey
   const publicKey = marvelPublicKey
 
@@ -22,7 +22,7 @@ export const useMarvelCharacters = () => {
   const [results, setResults] = useState([])
   const [isLoaded, setIsLoaded] = useState(false)
 
-  const getCharacters = async (skip) => {
+  const getCharacters = async skip => {
     const {
       data: { count, results: newResults, total },
     } = await (
@@ -31,12 +31,10 @@ export const useMarvelCharacters = () => {
       )
     ).json()
 
-    console.log("skip", skip)
-
     setResults(results => [...results, ...newResults])
 
-    if (skip < total) getCharacters(skip + count)
-    else setIsLoaded(true)
+    if (skip >= total) setIsLoaded(true)
+    else getCharacters(skip + count)
   }
 
   useEffect(() => {
@@ -48,30 +46,28 @@ export const useMarvelCharacters = () => {
 
 export const useComics = id => {
   const [results, setResults] = useState([])
-  const [count, setCount] = useState()
-  const [total, setTotal] = useState()
-  const [isComplete, setIsComplete] = useState()
+  const [isLoaded, setIsLoaded] = useState(false)
 
-  const getComics = async () => {
+  const getComics = async skip => {
     const {
-      data: { results, count, total },
+      data: { count, results: newResults, total },
     } = await (
       await fetch(
         `https://gateway.marvel.com:443/v1/public/characters/${String(
           id,
-        )}/comics?${params()}`,
+        )}/comics?${params(skip)}`,
       )
     ).json()
 
-    setResults(results)
-    setCount(count)
-    setTotal(total)
-    setIsComplete(true)
+    setResults(results => [...results, ...newResults])
+
+    if (skip >= total) setIsLoaded(true)
+    else getComics(skip + count)
   }
 
   useEffect(() => {
-    getComics()
+    getComics(0)
   }, [])
 
-  return { results, count, total, isComplete }
+  return { results, isLoaded }
 }
