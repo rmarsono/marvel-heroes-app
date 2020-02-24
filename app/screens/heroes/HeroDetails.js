@@ -1,11 +1,6 @@
 import React from "react"
 import { Dimensions, SafeAreaView, ScrollView, View } from "react-native"
-import {
-  TopNavigation,
-  Divider,
-  Layout,
-  Text,
-} from "@ui-kitten/components"
+import { TopNavigation, Divider, Layout, Text } from "@ui-kitten/components"
 import HeroImage from "App/components/HeroImage"
 import ComicImage from "App/components/ComicImage"
 import StackSpacer from "App/components/StackSpacer"
@@ -14,6 +9,8 @@ import Wrapper from "App/components/Wrapper"
 import BackButton from "App/components/BackButton"
 import InlineSpacer from "App/components/InlineSpacer"
 import InlineLoader from "App/components/InlineLoader"
+import Notification from "App/components/Notification"
+import HeroHeader from "App/components/HeroHeader"
 import { useComics } from "App/hooks/marvel"
 import { BarChart } from "react-native-chart-kit"
 import { chartConfig } from "App/config"
@@ -87,16 +84,17 @@ const HeroDetails = ({
                   <InlineSpacer size={2} />
                 </>
               )}
-              <Text style={{ flexShrink: 1 }} category="h5">
-                {name}
-              </Text>
+              <HeroHeader
+                title={name}
+                content={`Appeared in ${availableComics} comics, ${availableStories} stories, participated in ${availableEvents} events and featured in ${availableSeries} series.`}
+              />
             </View>
             <StackSpacer size={2} />
-            <Text>
-              {description !== ""
-                ? description
-                : "Description is not available"}
-            </Text>
+            {description !== "" ? (
+              <Text>{description}</Text>
+            ) : (
+              <Notification label="Description is not available" />
+            )}
             <StackSpacer size={2} />
             {!isLoaded ? (
               <InlineLoader label="loading comics..." />
@@ -121,7 +119,7 @@ const HeroDetails = ({
                     <StackSpacer size={2} />
                   </>
                 ) : (
-                  <Text>Comics list is not available</Text>
+                  <Notification label="Comics list is not available" />
                 )}
               </>
             )}
