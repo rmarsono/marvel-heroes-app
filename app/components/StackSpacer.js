@@ -3,7 +3,7 @@ import { number } from "prop-types"
 import { View } from "react-native"
 
 const StackSpacer = ({ size }) => (
-  <View style={{ flex: 1, paddingBottom: size * 8 }}></View>
+  <View style={{ paddingBottom: size * 8 }}></View>
 )
 
 StackSpacer.propTypes = {

@@ -34,7 +34,6 @@ module.exports = {
     'react/sort-prop-types': 'error',
     'no-multiple-empty-lines': 'error',
     'no-trailing-spaces': 'error',
-    'max-len': ['error', {code: 100}],
     'no-console': 'error',
   },
   settings: {

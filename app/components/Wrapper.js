@@ -1,5 +1,5 @@
 import React from "react"
-import { element } from "prop-types"
+import { element, oneOfType, arrayOf } from "prop-types"
 import { View } from "react-native"
 
 const Wrapper = ({ children }) => (
@@ -7,7 +7,7 @@ const Wrapper = ({ children }) => (
 )
 
 Wrapper.propTypes = {
-  children: element.isRequired,
+  children: oneOfType([element, arrayOf(element)]).isRequired,
 }
 
 export default Wrapper
