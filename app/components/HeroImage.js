@@ -1,12 +1,12 @@
 import React from "react"
-import { Image } from "react-native"
+import { Image, StyleSheet } from "react-native"
 import { string } from "prop-types"
 
 const HeroImage = ({ path, extension }) => (
   <Image style={styles.base} source={{ uri: `${path}.${extension}` }} />
 )
 
-const styles = {
+const styles = StyleSheet.create({
   base: {
     width: 150,
     height: 150,
@@ -14,7 +14,7 @@ const styles = {
     borderRadius: 75,
     borderWidth: 5,
   },
-}
+})
 
 HeroImage.propTypes = {
   extension: string,

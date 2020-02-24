@@ -1,5 +1,5 @@
 import React from "react"
-import { Image, View } from "react-native"
+import { Image, View, StyleSheet } from "react-native"
 import { string } from "prop-types"
 import { Text } from "@ui-kitten/components"
 
@@ -19,7 +19,7 @@ const ComicImage = ({ path, extension, title }) => {
   )
 }
 
-const styles = {
+const styles = StyleSheet.create({
   base: {
     width: 120,
     height: 180,
@@ -31,7 +31,7 @@ const styles = {
     alignItems: "center",
     padding: 5,
   },
-}
+})
 
 ComicImage.propTypes = {
   extension: string.isRequired,

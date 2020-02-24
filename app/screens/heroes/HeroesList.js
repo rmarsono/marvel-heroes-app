@@ -1,18 +1,22 @@
-import React from "react"
-import { SafeAreaView } from "react-native"
+import React, { useState } from "react"
+import { SafeAreaView, StyleSheet } from "react-native"
 import {
   TopNavigation,
   Divider,
   Layout,
   List,
   ListItem,
+  Input,
 } from "@ui-kitten/components"
 import { shape, func } from "prop-types"
 import { useMarvelCharacters } from "App/hooks/marvel"
 import Loader from "App/components/Loader"
+import StackSpacer from "App/components/StackSpacer"
 
 const HeroesList = ({ navigation: { navigate } }) => {
   const { results, isLoaded } = useMarvelCharacters()
+
+  const [filter, setFilter] = useState("")
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -20,12 +24,34 @@ const HeroesList = ({ navigation: { navigate } }) => {
       <Divider />
 
       {results.length ? (
-        <Layout
-          style={{
-            flex: 1,
-          }}>
+        <Layout>
+          <StackSpacer size={3} />
+
+          <Input
+            value={filter}
+            placeholder="filter characters..."
+            textStyle={styles.inputText}
+            onChangeText={setFilter}
+            style={{ paddingLeft: 10, paddingRight: 10 }}
+            autoCapitalize="none"
+            autoCorrect={false}
+          />
+
+          <StackSpacer size={1} />
+
           <List
-            data={results}
+            data={
+              filter.length
+                ? results.filter(({ name }) =>
+                  name
+                    .toLowerCase()
+                    .replace(/-|\s|\(|\)/g, "")
+                    .includes(
+                      filter.toLowerCase().replace(/-|\s|\(|\)/g, ""),
+                    ),
+                )
+                : results
+            }
             ItemSeparatorComponent={() => <Divider />}
             ListFooterComponent={isLoaded ? null : () => <Loader />}
             removeClippedSubviews={true}
@@ -52,6 +78,10 @@ const HeroesList = ({ navigation: { navigate } }) => {
     </SafeAreaView>
   )
 }
+
+const styles = StyleSheet.create({
+  inputText: { color: "#3366FF" },
+})
 
 HeroesList.propTypes = {
   navigation: shape({

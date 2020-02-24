@@ -38,7 +38,7 @@ export const useMarvelCharacters = () => {
   }
 
   useEffect(() => {
-    getCharacters(0)
+    if (!results.length) getCharacters(0)
   }, [])
 
   return { results, isLoaded }
@@ -66,7 +66,7 @@ export const useComics = id => {
   }
 
   useEffect(() => {
-    getComics(0)
+    if (!results.length) getComics(0)
   }, [])
 
   return { results, isLoaded }
