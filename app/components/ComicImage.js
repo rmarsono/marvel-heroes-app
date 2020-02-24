@@ -1,26 +1,9 @@
-import React, { useState } from "react"
+import React from "react"
 import { Image, View } from "react-native"
 import { string } from "prop-types"
 import { Text } from "@ui-kitten/components"
-import Loader from "App/components/Loader"
 
 const ComicImage = ({ path, extension, title }) => {
-  const styles = {
-    base: {
-      width: 120,
-      height: 180,
-      marginBottom: 5,
-    },
-    empty: {
-      backgroundColor: "#000000",
-      justifyContent: "center",
-      alignItems: "center",
-      padding: 5,
-    },
-  }
-
-  const [isLoaded, setIsLoaded] = useState()
-
   return (
     <>
       {path.includes("not_available") ? (
@@ -30,16 +13,24 @@ const ComicImage = ({ path, extension, title }) => {
           </Text>
         </View>
       ) : (
-        <Image
-          source={{ uri: `${path}.${extension}` }}
-          style={styles.base}
-          onLoad={() => setIsLoaded(true)}
-          blurRadius={isLoaded ? 0 : 1}
-        />
+        <Image source={{ uri: `${path}.${extension}` }} style={styles.base} />
       )}
-      {!isLoaded ? <Loader /> : null}
     </>
   )
+}
+
+const styles = {
+  base: {
+    width: 120,
+    height: 180,
+    marginBottom: 5,
+  },
+  empty: {
+    backgroundColor: "#000000",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 5,
+  },
 }
 
 ComicImage.propTypes = {

@@ -6,7 +6,7 @@ import StackSpacer from "./StackSpacer"
 
 const DataRow = ({ label, value }) => (
   <View>
-    <Text category="h6">{label}</Text>
+    <Text category="h5">{label}</Text>
     <StackSpacer size={1} />
     <Text>{value}</Text>
   </View>
