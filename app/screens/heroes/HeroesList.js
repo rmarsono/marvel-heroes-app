@@ -12,28 +12,24 @@ import { useMarvelCharacters } from "App/hooks/marvel"
 import Loader from "App/components/Loader"
 
 const HeroesList = ({ navigation: { navigate } }) => {
-  const [characters, setCharacters] = useState([])
+  const { results, isLoaded } = useMarvelCharacters()
 
-  const { results, isComplete } = useMarvelCharacters()
-
-  useEffect(() => {
-    setCharacters([...characters, ...results])
-  }, [results])
+  console.log("results", results)
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <TopNavigation title="Marvel heroes" alignment="center" />
       <Divider />
 
-      {characters.length ? (
+      {results.length ? (
         <Layout
           style={{
             flex: 1,
           }}>
           <List
-            data={characters}
+            data={results}
             ItemSeparatorComponent={() => <Divider />}
-            ListFooterComponent={isComplete ? null : () => <Loader />}
+            ListFooterComponent={isLoaded ? null : () => <Loader />}
             removeClippedSubviews={true}
             maxToRenderPerBatch={50}
             initialNumToRender={100}

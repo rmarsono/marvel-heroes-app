@@ -19,30 +19,31 @@ const params = (skip = 0) => {
 }
 
 export const useMarvelCharacters = () => {
-  const [isComplete, setIsComplete] = useState(false)
   const [results, setResults] = useState([])
-  const [skip, setSkip] = useState(0)
+  const [isLoaded, setIsLoaded] = useState(false)
 
-  const getCharacters = async () => {
+  const getCharacters = async (skip) => {
     const {
-      data: { offset, count, results, total },
+      data: { count, results: newResults, total },
     } = await (
       await fetch(
         `https://gateway.marvel.com:443/v1/public/characters?${params(skip)}`,
       )
     ).json()
 
-    setSkip(offset + count)
-    setResults(results)
+    console.log("skip", skip)
 
-    if (skip >= total) setIsComplete(true)
+    setResults(results => [...results, ...newResults])
+
+    if (skip < total) getCharacters(skip + count)
+    else setIsLoaded(true)
   }
 
   useEffect(() => {
-    if (!isComplete) getCharacters()
-  }, [results])
+    getCharacters(0)
+  }, [])
 
-  return { results, isComplete }
+  return { results, isLoaded }
 }
 
 export const useComics = id => {
