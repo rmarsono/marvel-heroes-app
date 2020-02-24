@@ -20,7 +20,7 @@ const HeroesList = ({ navigation: { navigate } }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <TopNavigation title="Marvel heroes" alignment="center" />
+      <TopNavigation title="Marvel Heroes" alignment="center" />
       <Divider />
 
       {results.length ? (
@@ -53,11 +53,32 @@ const HeroesList = ({ navigation: { navigate } }) => {
                 : results
             }
             ItemSeparatorComponent={() => <Divider />}
-            ListFooterComponent={isLoaded ? null : () => <Loader />}
+            ListFooterComponent={
+              isLoaded
+                ? null
+                : () => (
+                  <>
+                    <StackSpacer size={2} />
+                    <Loader />
+                    <StackSpacer size={2} />
+                  </>
+                )
+            }
             removeClippedSubviews={true}
             maxToRenderPerBatch={50}
             initialNumToRender={100}
-            renderItem={({ item: { id, name, description, thumbnail } }) => (
+            renderItem={({
+              item: {
+                id,
+                name,
+                description,
+                thumbnail,
+                comics: { available: availableComics },
+                stories: { available: availableStories },
+                events: { available: availableEvents },
+                series: { available: availableSeries },
+              },
+            }) => (
               <ListItem
                 title={name}
                 onPress={() =>
@@ -66,6 +87,10 @@ const HeroesList = ({ navigation: { navigate } }) => {
                     name,
                     description,
                     thumbnail,
+                    availableComics,
+                    availableStories,
+                    availableEvents,
+                    availableSeries,
                   })
                 }
               />

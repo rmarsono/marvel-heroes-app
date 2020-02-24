@@ -1,14 +1,22 @@
 import React from "react"
-import { SafeAreaView, ScrollView } from "react-native"
-import { TopNavigation, Divider, Layout, Text } from "@ui-kitten/components"
+import { Dimensions, SafeAreaView, ScrollView, View } from "react-native"
+import {
+  TopNavigation,
+  Divider,
+  Layout,
+  Text,
+} from "@ui-kitten/components"
 import HeroImage from "App/components/HeroImage"
 import ComicImage from "App/components/ComicImage"
 import StackSpacer from "App/components/StackSpacer"
 import ImageWall from "App/components/ImageWall"
-import DataRow from "App/components/DataRow"
 import Wrapper from "App/components/Wrapper"
 import BackButton from "App/components/BackButton"
+import InlineSpacer from "App/components/InlineSpacer"
+import InlineLoader from "App/components/InlineLoader"
 import { useComics } from "App/hooks/marvel"
+import { BarChart } from "react-native-chart-kit"
+import { chartConfig } from "App/config"
 
 import { shape, func, string, number } from "prop-types"
 
@@ -20,10 +28,30 @@ const HeroDetails = ({
       name,
       description,
       thumbnail: { path, extension },
+      availableComics,
+      availableStories,
+      availableEvents,
+      availableSeries,
     },
   },
 }) => {
   const { results, isLoaded } = useComics(id)
+
+  const screenWidth = Dimensions.get("window").width
+
+  const chartData = {
+    labels: ["comics", "stories", "events", "series"],
+    datasets: [
+      {
+        data: [
+          availableComics,
+          availableStories,
+          availableEvents,
+          availableSeries,
+        ],
+      },
+    ],
+  }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -40,52 +68,63 @@ const HeroDetails = ({
         }}>
         <ScrollView>
           <Wrapper>
-            <>
-              <StackSpacer size={2} />
+            <StackSpacer size={2} />
+            <BarChart
+              data={chartData}
+              width={screenWidth - 40}
+              height={220}
+              chartConfig={chartConfig}
+            />
+            <StackSpacer size={2} />
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+              }}>
               {path.includes("not_available") ? null : (
                 <>
                   <HeroImage path={path} extension={extension} />
-                  <StackSpacer size={3} />
+                  <InlineSpacer size={2} />
                 </>
               )}
-              <DataRow
-                label={name}
-                value={
-                  description !== ""
-                    ? description
-                    : "Description is not available"
-                }
-              />
-              <StackSpacer size={2} />
-              {!isLoaded ? (
-                <Text>Loading comics...</Text>
-              ) : (
-                <>
-                  {results.length > 0 ? (
-                    <>
-                      <Text category="h6">
-                        {`Comic books featuring ${name}`}
-                      </Text>
-                      <StackSpacer size={2} />
-                      <ImageWall>
-                        {results.map(
-                          ({ id, title, thumbnail: { extension, path } }) => (
-                            <ComicImage
-                              key={id}
-                              path={path}
-                              extension={extension}
-                              title={title}
-                            />
-                          ),
-                        )}
-                      </ImageWall>
-                    </>
-                  ) : (
-                    <Text>Comics list is not available</Text>
-                  )}
-                </>
-              )}
-            </>
+              <Text style={{ flexShrink: 1 }} category="h5">
+                {name}
+              </Text>
+            </View>
+            <StackSpacer size={2} />
+            <Text>
+              {description !== ""
+                ? description
+                : "Description is not available"}
+            </Text>
+            <StackSpacer size={2} />
+            {!isLoaded ? (
+              <InlineLoader label="loading comics..." />
+            ) : (
+              <>
+                {results.length > 0 ? (
+                  <>
+                    <Text category="h6">{`Comic books featuring ${name}`}</Text>
+                    <StackSpacer size={2} />
+                    <ImageWall>
+                      {results.map(
+                        ({ id, title, thumbnail: { extension, path } }) => (
+                          <ComicImage
+                            key={id}
+                            path={path}
+                            extension={extension}
+                            title={title}
+                          />
+                        ),
+                      )}
+                    </ImageWall>
+                    <StackSpacer size={2} />
+                  </>
+                ) : (
+                  <Text>Comics list is not available</Text>
+                )}
+              </>
+            )}
           </Wrapper>
         </ScrollView>
       </Layout>
@@ -106,6 +145,10 @@ HeroDetails.propTypes = {
         path: string.isRequired,
         extension: string.isRequired,
       }).isRequired,
+      availableComics: number.isRequired,
+      availableStories: number.isRequired,
+      availableEvents: number.isRequired,
+      availableSeries: number.isRequired,
     }).isRequired,
   }).isRequired,
 }

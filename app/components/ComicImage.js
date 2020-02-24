@@ -1,9 +1,11 @@
-import React from "react"
+import React, { useState } from "react"
 import { Image, View, StyleSheet } from "react-native"
 import { string } from "prop-types"
-import { Text } from "@ui-kitten/components"
+import { Text, Spinner } from "@ui-kitten/components"
 
 const ComicImage = ({ path, extension, title }) => {
+  const [isLoaded, setIsLoaded] = useState(false)
+
   return (
     <>
       {path.includes("not_available") ? (
@@ -13,7 +15,23 @@ const ComicImage = ({ path, extension, title }) => {
           </Text>
         </View>
       ) : (
-        <Image source={{ uri: `${path}.${extension}` }} style={styles.base} />
+        <View
+          style={{
+            position: "relative",
+            alignItems: "center",
+            justifyContent: "center",
+          }}>
+          <Image
+            source={{ uri: `${path}.${extension}` }}
+            style={styles.base}
+            onLoad={() => setIsLoaded(true)}
+          />
+          {isLoaded ? null : (
+            <View style={{ position: "absolute" }}>
+              <Spinner />
+            </View>
+          )}
+        </View>
       )}
     </>
   )
