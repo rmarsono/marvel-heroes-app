@@ -6,7 +6,7 @@ import {
   publicKey as marvelPublicKey,
 } from "App/config"
 
-const params = skip => {
+const params = (skip, limit = 100) => {
   const privateKey = marvelPrivateKey
   const publicKey = marvelPublicKey
 
@@ -15,21 +15,25 @@ const params = skip => {
 
   const timestamp = +new Date()
   const hash = generateHash(privateKey, publicKey, timestamp)
-  return `apikey=${publicKey}&ts=${timestamp}&hash=${hash}&limit=100&offset=${skip}`
+  return `apikey=${publicKey}&ts=${timestamp}&hash=${hash}&limit=${limit}&offset=${skip}`
 }
 
 export const useMarvelCharacters = () => {
   const [results, setResults] = useState([])
   const [isLoaded, setIsLoaded] = useState(false)
+  const [isLimitReached, setIsLimitReached] = useState(false)
 
   const getCharacters = async skip => {
-    const {
-      data: { count, results: newResults, total },
-    } = await (
+    const { code, data: { count, results: newResults, total } = {} } = await (
       await fetch(
         `https://gateway.marvel.com:443/v1/public/characters?${params(skip)}`,
       )
     ).json()
+
+    if (code === "RequestThrottled") {
+      setIsLimitReached(true)
+      return
+    }
 
     setResults(results => [...results, ...newResults])
 
@@ -41,7 +45,7 @@ export const useMarvelCharacters = () => {
     if (!results.length) getCharacters(0)
   }, [])
 
-  return { results, isLoaded }
+  return { results, isLoaded, isLimitReached }
 }
 
 export const useComics = id => {

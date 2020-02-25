@@ -12,15 +12,25 @@ import { shape, func } from "prop-types"
 import { useMarvelCharacters } from "App/hooks/marvel"
 import Loader from "App/components/Loader"
 import StackSpacer from "App/components/StackSpacer"
+import ErrorUI from "App/components/ErrorUI"
 
 const HeroesList = ({ navigation: { navigate } }) => {
-  const { results, isLoaded } = useMarvelCharacters()
+  const { results, isLoaded, isLimitReached } = useMarvelCharacters()
 
   const [filter, setFilter] = useState("")
 
+  if (isLimitReached)
+    return (
+      <ErrorUI label="Marvel API calls rate limit for this account has been exceeded for the day: please try again tomorrow." />
+    )
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <TopNavigation title="Marvel Heroes" alignment="center" testID='heroesListTopNavigation' />
+      <TopNavigation
+        title="Marvel Heroes"
+        alignment="center"
+        testID="heroesListTopNavigation"
+      />
       <Divider />
 
       {results.length ? (
@@ -35,7 +45,7 @@ const HeroesList = ({ navigation: { navigate } }) => {
             style={{ paddingLeft: 10, paddingRight: 10 }}
             autoCapitalize="none"
             autoCorrect={false}
-            testID='filterTextInput'
+            testID="filterTextInput"
           />
 
           <StackSpacer size={1} />
