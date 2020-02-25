@@ -4,8 +4,8 @@ import { View } from "react-native"
 import { string } from "prop-types"
 import InlineSpacer from "./InlineSpacer"
 
-const Notification = ({ label }) => (
-  <View style={{ flexDirection: "row", alignItems: "center" }}>
+const Notification = ({ label, testID }) => (
+  <View style={{ flexDirection: "row", alignItems: "center" }} testID={testID}>
     <Icon name="alert-triangle" width={24} height={24} />
     <InlineSpacer />
     <Text>{label}</Text>
@@ -14,6 +14,7 @@ const Notification = ({ label }) => (
 
 Notification.propTypes = {
   label: string,
+  testID: string
 }
 
 export default Notification

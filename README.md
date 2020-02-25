@@ -1,6 +1,8 @@
-# Flare HR tech challenge - Marvel Heroes app
+# Marvel Heroes app by Rendy Marsono
 
-Build a React Native app that lets a user explore the Marvel character universe, find their favourite hero and view detailed info about them.
+React Native app that lets a user explore the Marvel character universe, find their favourite hero and view detailed info about them.
+
+The app allows users to filter Marvel characters by their names. Tapping on a name will navigate to a screen with the characters' stats, description (if available) and display a gallery of comic books they have been featured in.
 
 ## How to view
 
@@ -16,13 +18,21 @@ yarn ios
 ```
 to view the app on an IOS simulator
 
+## How to test (e2e)
+1. you will need detox CLI installed: https://github.com/wix/Detox/blob/master/docs/Introduction.GettingStarted.md
+1. in the command line, run 
+```
+detox build
+```
+the first time you run this, it will take a while
+1. after detox finishes building, run 
+```
+detox test
+```
+1. the test will run through the pre-defined scenarios defined in ./e2e directory
+
 ## Development notes
 
 * routing is done with react-navigation
 * uses React Native UI Kitten design system
-
-## log
-
-### 2020-02-22
-
-* used react-native cli to create a new project and create a new repo in github
+* uses React Native Chart Kit for charting

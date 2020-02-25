@@ -1,15 +1,15 @@
 import React, { useState } from "react"
 import { Image, View, StyleSheet } from "react-native"
-import { string } from "prop-types"
+import { string, number } from "prop-types"
 import { Text, Spinner } from "@ui-kitten/components"
 
-const ComicImage = ({ path, extension, title }) => {
+const ComicImage = ({ path, extension, title, imageWidth, imageHeight }) => {
   const [isLoaded, setIsLoaded] = useState(false)
 
   return (
     <>
       {path.includes("not_available") ? (
-        <View style={[styles.base, styles.empty]}>
+        <View style={Object.assign({}, styles.base, styles.empty, { width: imageWidth, height: imageHeight })}>
           <Text style={{ color: "#ffffff", textAlign: "center" }} category="c1">
             {title === "" ? "Thumbnail not available" : title}
           </Text>
@@ -23,7 +23,7 @@ const ComicImage = ({ path, extension, title }) => {
           }}>
           <Image
             source={{ uri: `${path}.${extension}` }}
-            style={styles.base}
+            style={Object.assign({}, styles.base, { width: imageWidth, height: imageHeight })}
             onLoad={() => setIsLoaded(true)}
           />
           {isLoaded ? null : (
@@ -39,8 +39,6 @@ const ComicImage = ({ path, extension, title }) => {
 
 const styles = StyleSheet.create({
   base: {
-    width: 120,
-    height: 180,
     marginBottom: 5,
   },
   empty: {
@@ -53,6 +51,8 @@ const styles = StyleSheet.create({
 
 ComicImage.propTypes = {
   extension: string.isRequired,
+  imageHeight: number.isRequired,
+  imageWidth: number.isRequired,
   path: string.isRequired,
   title: string.isRequired,
 }

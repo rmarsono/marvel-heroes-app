@@ -20,7 +20,7 @@ const HeroesList = ({ navigation: { navigate } }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <TopNavigation title="Marvel Heroes" alignment="center" />
+      <TopNavigation title="Marvel Heroes" alignment="center" testID='heroesListTopNavigation' />
       <Divider />
 
       {results.length ? (
@@ -35,6 +35,7 @@ const HeroesList = ({ navigation: { navigate } }) => {
             style={{ paddingLeft: 10, paddingRight: 10 }}
             autoCapitalize="none"
             autoCorrect={false}
+            testID='filterTextInput'
           />
 
           <StackSpacer size={1} />

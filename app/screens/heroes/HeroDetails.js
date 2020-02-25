@@ -36,6 +36,9 @@ const HeroDetails = ({
 
   const screenWidth = Dimensions.get("window").width
 
+  const comicWidth = Math.floor((screenWidth * 0.3) - 2)
+  const comicHeight = comicWidth * 1.5
+
   const chartData = {
     labels: ["comics", "stories", "events", "series"],
     datasets: [
@@ -56,6 +59,7 @@ const HeroDetails = ({
         title={name}
         alignment="center"
         leftControl={<BackButton goBack={goBack} />}
+        testID='heroDetailsTopNavigation'
       />
       <Divider />
 
@@ -85,15 +89,16 @@ const HeroDetails = ({
                 </>
               )}
               <HeroHeader
+                testID='heroHeader'
                 title={name}
                 content={`Appeared in ${availableComics} comics, ${availableStories} stories, participated in ${availableEvents} events and featured in ${availableSeries} series.`}
               />
             </View>
             <StackSpacer size={2} />
             {description !== "" ? (
-              <Text>{description}</Text>
+              <Text testID='heroDescription'>{description}</Text>
             ) : (
-              <Notification label="Description is not available" />
+              <Notification testID='heroDescription' label="Description is not available" />
             )}
             <StackSpacer size={2} />
             {!isLoaded ? (
@@ -112,6 +117,8 @@ const HeroDetails = ({
                             path={path}
                             extension={extension}
                             title={title}
+                            imageWidth={comicWidth}
+                            imageHeight={comicHeight}
                           />
                         ),
                       )}

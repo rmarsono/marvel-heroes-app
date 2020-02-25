@@ -4,8 +4,8 @@ import { Text } from "@ui-kitten/components"
 import { View } from "react-native"
 import StackSpacer from "App/components/StackSpacer"
 
-const HeroHeader = ({ title, content }) => (
-  <View style={{ flex: 1, justifyContent: "flex-start" }}>
+const HeroHeader = ({ title, content, testID }) => (
+  <View testID={testID} style={{ flex: 1, justifyContent: "flex-start" }}>
     <Text category="h5" style={{ lineHeight: 28 }}>
       {title}
     </Text>
@@ -16,6 +16,7 @@ const HeroHeader = ({ title, content }) => (
 
 HeroHeader.propTypes = {
   content: string.isRequired,
+  testID: string,
   title: string.isRequired,
 }
 

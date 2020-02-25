@@ -7,7 +7,7 @@ const BackButton = ({ goBack }) => {
   const [isActive, setIsActive] = useState()
 
   return (
-    <TouchableOpacity
+    <TouchableOpacity testID='topNavigationBackButton'
       onPress={!isActive ? () => goBack() : () => setIsActive(true)}>
       <Icon name="arrow-circle-left" width={24} height={24} />
     </TouchableOpacity>
